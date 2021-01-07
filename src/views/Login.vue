@@ -126,6 +126,7 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { getCode } from '@/api/login.js'
+import { v4 as uuid } from 'uuid'
 
 export default {
   name: 'app',
@@ -142,11 +143,23 @@ export default {
     ValidationProvider
   },
   mounted() {
+    let sid = ''
+    if (localStorage.getItem('sid')) {
+      sid = localStorage.getItem('sid')
+    } else {
+      sid = uuid()
+      sid = localStorage.setItem('sid', sid)
+    }
+    // 修改vuex中sid的值
+    this.$store.commit('setSid', sid)
+    console.log(sid)
+    // 将sid传入
     this._getCodes()
   },
   methods: {
     _getCodes() {
-      getCode().then(res => {
+      let sid = this.$store.state.sid
+      getCode(sid).then(res => {
         if (res.code === 200) {
           this.svg = res.data
         } else {
