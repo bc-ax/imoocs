@@ -27,21 +27,21 @@ extend('password', {
 
 extend('repassword', {
   params: ['target'],
-  validate (value, { target }) {
+  validate(value, { target }) {
     return value === target
   },
   message: '*输入密码不一致,请重新输入'
 })
 
 extend('code', {
-  validate (value) {
+  validate(value) {
     return value.length === 4
   },
   message: '*请输入4位有效验证码'
 })
 
 extend('minmax', {
-  validate (value, { min, max }) {
+  validate(value, { min, max }) {
     return value.length >= min && value.length <= max
   },
   params: ['min', 'max'],
@@ -53,12 +53,21 @@ extend('email', {
   message: '*请输入正确的邮箱格式'
 })
 
+
+extend('nonumber', {
+  validate: (value) => {
+    return !(/^[0-9]*$/).test(value)
+  },
+  message: '*昵称不能用纯数字'
+})
+
 extend('username', {
   validate: (value) => {
-    return value.length >= 8
+    return value.length >= 4
   },
-  message: '*昵称不符合最小长度要求'
+  message: '*昵称最少4位'
 })
+
 
 // 中文包扩展
 localize('zh_CN', {
